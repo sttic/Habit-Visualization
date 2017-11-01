@@ -1,3 +1,5 @@
+# TODO add terminal interaction
+
 import re
 
 def main():
