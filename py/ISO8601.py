@@ -1,5 +1,3 @@
-# TODO add terminal interaction
-
 import re
 
 def main():
@@ -9,7 +7,7 @@ def main():
     for s in sleep:
         if len(s) > 10:
             iso8601 = iso8601 + parse(s)
-    #print(iso8601, end="")
+    print(iso8601, end="")
     write_sleep_data(iso8601)
 
 def read_raw_sleep(file):
@@ -48,13 +46,13 @@ def parse(s):
         t0 = date[0] + "-" + date[1] + "-" + date[2] + "T" + entry[i] + ":" + entry[i+1]
         # can compare num entries as string types
         if entry[i] > entry[i+2]:
-            date = incr_date(date)
+            date = date_crossover(date)
         t1 = date[0] + "-" + date[1] + "-" + date[2] + "T" + entry[i+2] + ":" + entry[i+3]
         combined = combined + t0 + ", " + t1 + "\n"
 
     return combined
 
-def incr_date(date):
+def date_crossover(date):
     year, month, day = int(date[0]), int(date[1]), int(date[2])
 
     if is_leap_year(year):
@@ -85,4 +83,8 @@ def write_sleep_data(s):
     file.write(s)
     file.close()
 
+def wait_for_press():
+    input("\nPress any key to exit. ")
+
 main()
+wait_for_press()
