@@ -79,7 +79,7 @@ def format_single(i):
     return s
 
 def write_sleep_data(s):
-    file = open("sleep_data.txt",'w')
+    file = open("./data/sleep_data.txt",'w')
     file.write(s)
     file.close()
 
