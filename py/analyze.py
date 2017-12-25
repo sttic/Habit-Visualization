@@ -1,4 +1,3 @@
-import datetime
 from datetime import timedelta
 import dateutil.parser
 from PIL import Image, ImageDraw
@@ -22,9 +21,9 @@ i = 0
 instance = data[i]
 while time != end:
     if (time - instance[0]).total_seconds() >= 0 and (time - instance[1]).total_seconds() < 0:
-        color, shade = [(68,140,193),(58,134,189)], [(68,140,193),(58,134,189)]
+        color, shade = [(68,140,193),(58,134,189)], [(36,103,162),(32,95,154)]
     else:
-        color, shade = [(229,229,229),(225,225,225)], [(229,229,229),(225,225,225)]
+        color, shade = [(229,229,229),(225,225,225)], [(220,220,220),(215,215,215)]
         if (time - instance[1]).total_seconds() >= 0 and i < len(data)-1:
             i += 1
             instance = data[i]
