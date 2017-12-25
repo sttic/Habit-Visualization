@@ -1,13 +1,13 @@
 import re
 
 def main():
-    sleep = read_raw_sleep("sleep_tracker.txt")
+    sleep = read_raw_sleep("../data/original/sleep_tracker.txt")
     iso8601 = ""
 
     for s in sleep:
         if len(s) > 10:
             iso8601 = iso8601 + parse(s)
-    print(iso8601, end="")
+    #print(iso8601, end="")
     write_sleep_data(iso8601)
 
 def read_raw_sleep(file):
@@ -20,7 +20,7 @@ def read_raw_sleep(file):
     return raw_sleep
 
 def parse(s):
-    entry = re.split("[._:]", s)
+    entry = re.split("[._:]", remove_paren(s))
 
     date = [entry[0], entry[1], entry[2]]
     del entry[0:3]
@@ -52,6 +52,12 @@ def parse(s):
 
     return combined
 
+def remove_paren(s):
+    if s.find("(") > 0:
+        p1, p2 = s.find("("), s.find(")")
+        s = s[:p1] + s[p2+1:]
+    return s
+
 def date_crossover(date):
     year, month, day = int(date[0]), int(date[1]), int(date[2])
 
@@ -79,12 +85,12 @@ def format_single(i):
     return s
 
 def write_sleep_data(s):
-    file = open("./data/sleep_data.txt",'w')
+    file = open("../data/processed/sleep_data.txt",'w')
     file.write(s)
     file.close()
 
 def wait_for_press():
-    input("\nPress any key to exit. ")
+    input("Done. Press any key to exit. ")
 
 main()
 wait_for_press()
