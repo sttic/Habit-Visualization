@@ -14,11 +14,9 @@ x_scale, y_scale = 1, 1
 width, height = 24*60, (duration+1)*line_height
 
 im = Image.new('RGB', (width, height), (255,255,255))
-draw = ImageDraw.Draw(im)
-px = im.load()
+draw, px = ImageDraw.Draw(im), im.load()
 
-i = 0
-instance = data[i]
+i, instance = 0, data[0]
 while time != end:
     if (time - instance[0]).total_seconds() >= 0 and (time - instance[1]).total_seconds() < 0:
         color, shade = [(68,140,193),(58,134,189)], [(36,103,162),(32,95,154)]
