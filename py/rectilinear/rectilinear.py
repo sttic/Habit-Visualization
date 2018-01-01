@@ -18,7 +18,7 @@ for file in ["sleep","campus","transit"]:
     draw, px = ImageDraw.Draw(im), im.load()
 
     i, instance = 0, data[0]
-    while time != end:
+    while time != end + step:
         if (time - instance[0]).total_seconds() >= 0 and (time - instance[1]).total_seconds() < 0:
             color, shade = [(68,140,193),(58,134,189)], [(36,103,162),(32,95,154)]
         else:
