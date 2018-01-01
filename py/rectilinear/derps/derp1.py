@@ -48,7 +48,7 @@ for x in range(0,S,step):
         #print(x, y, "|", polar(x, y), sep="\t")
         p = polar(x0, y0)
         #print(x0, y0, p)
-        px[x, y] = px0[p]
+        px[x, y] = px0[p[0],p[1]]
 
 #im.show()
 im.save("derp1.png", "PNG")
