@@ -35,7 +35,7 @@ def parse(s):
 
     return combined
 
-sleep = open("../data/original/sleep_tracker.txt").read().strip().replace('-', '_').replace(';', '').replace("am", "_am").replace("pm", "_pm").splitlines()
+sleep = open("../../data/original/sleep_tracker.txt").read().strip().replace('-', '_').replace(';', '').replace("am", "_am").replace("pm", "_pm").splitlines()
 sleep = [i[:i.find("(")]+i[i.find(")")+1:] if i.find("(")>0 else i for i in sleep]
 
 iso8601 = []
@@ -43,8 +43,8 @@ for s in sleep:
     if len(s) > 10:
         iso8601 = iso8601 + parse(s)
 
-file = open("../data/processed/sleep_data.txt",'w')
-file = open("../data/processed/sleep_data.txt",'a')
+file = open("../../data/processed/sleep_data.txt",'w')
+file = open("../../data/processed/sleep_data.txt",'a')
 for i in iso8601:
     file.write(i[0].isoformat()[:-3] + ", " + i[1].isoformat()[:-3] + "\n")
 file.close()

@@ -1,7 +1,7 @@
 import re
 
 def main():
-    sleep = read_raw_sleep("../data/original/sleep_tracker.txt")
+    sleep = read_raw_sleep("../../data/original/sleep_tracker.txt")
     iso8601 = ""
 
     for s in sleep:
@@ -85,7 +85,7 @@ def format_single(i):
     return s
 
 def write_sleep_data(s):
-    file = open("../data/processed/sleep_data.txt",'w')
+    file = open("../../data/processed/sleep_data.txt",'w')
     file.write(s)
     file.close()
 
