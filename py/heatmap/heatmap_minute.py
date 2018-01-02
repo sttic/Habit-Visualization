@@ -1,15 +1,17 @@
-from datetime import timedelta
-import dateutil.parser
 from PIL import Image, ImageDraw
-from colour import Color
+from colour import Color    # use colorsys instead (std lib)?
 
-palette = [[j/255 for j in i] for i in [[255,255,255], [54, 139, 202], [8,48,107]]]
-low, mid, high = Color(rgb=tuple(palette[0])), Color(rgb=tuple(palette[1])), Color(rgb=tuple(palette[2]))
-density = 1000
-grad = list(low.range_to(mid, round(density*0.5))) + list(mid.range_to(high, round(density*0.5)))
+# TODO draw full base image (with hour/day indicators)
+# TODO organize mess
+
+# pure white has no colour bias to start from, leading to 'contamination'
+palette = [[243,247,252], [54,139,202], [8,48,107]]
+col = [Color(rgb=tuple([j/255 for j in i])) for i in palette]
+density, weight = 1000, [0.5,0.5]   # weights must sum up to 1.0
+grad = sum([list(col[i].range_to(col[i+1], round(density*weight[i]))) for i in range(len(palette)-1)], [])
 
 def rgb(val):
-    col = grad[round(val*density)]
+    col = grad[round(val*(density-1))]
     return tuple([round(i*255) for i in [col.red, col.green, col.blue]])
 
 for file in ["sleep"]:
