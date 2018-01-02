@@ -14,15 +14,15 @@ def rgb(val):
     col = grad[round(val*(density-1))]
     return tuple([round(i*255) for i in [col.red, col.green, col.blue]])
 
-for file in ["sleep"]:
-    im_grad = Image.new('RGB', (density, 1), (255,255,255))
-    px_grad = im_grad.load()
-
-    for x in range(im_grad.width):
-        px_grad[x, 0] = rgb(x/density)
-    xs, ys = 1, 128
-    im_grad = im_grad.resize((im_grad.width*xs, im_grad.height*ys)).crop((0,0,im_grad.width*xs, im_grad.height*ys))
-    im_grad.save("gradient.png", "PNG")
+for file in ["sleep", "campus", "transit"]:
+##    im_grad = Image.new('RGB', (density, 1), (255,255,255))
+##    px_grad = im_grad.load()
+##
+##    for x in range(im_grad.width):
+##        px_grad[x, 0] = rgb(x/density)
+##    xs, ys = 1, 128
+##    im_grad = im_grad.resize((im_grad.width*xs, im_grad.height*ys)).crop((0,0,im_grad.width*xs, im_grad.height*ys))
+##    im_grad.save("gradient.png", "PNG")
     
     ################################################################
     
