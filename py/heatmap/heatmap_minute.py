@@ -1,17 +1,29 @@
 from datetime import timedelta
 import dateutil.parser
 from PIL import Image, ImageDraw
+from colour import Color
 
-#https://stackoverflow.com/a/20792531
-def rgb(minimum, maximum, value):
-    minimum, maximum = float(minimum), float(maximum)
-    ratio = 2 * (value-minimum) / (maximum - minimum)
-    b = int(max(0, 255*(1 - ratio)))
-    r = int(max(0, 255*(ratio - 1)))
-    g = 255 - b - r
-    return r, g, b
+palette = [[j/255 for j in i] for i in [[255,255,255], [54, 139, 202], [8,48,107]]]
+low, mid, high = Color(rgb=tuple(palette[0])), Color(rgb=tuple(palette[1])), Color(rgb=tuple(palette[2]))
+density = 1000
+grad = list(low.range_to(mid, round(density*0.5))) + list(mid.range_to(high, round(density*0.5)))
+
+def rgb(val):
+    col = grad[round(val*density)]
+    return tuple([round(i*255) for i in [col.red, col.green, col.blue]])
 
 for file in ["sleep"]:
+    im_grad = Image.new('RGB', (density, 1), (255,255,255))
+    px_grad = im_grad.load()
+
+    for x in range(im_grad.width):
+        px_grad[x, 0] = rgb(x/density)
+    xs, ys = 1, 128
+    im_grad = im_grad.resize((im_grad.width*xs, im_grad.height*ys)).crop((0,0,im_grad.width*xs, im_grad.height*ys))
+    im_grad.save("gradient.png", "PNG")
+    
+    ################################################################
+    
     data = open("../../data/processed/analysis/" + file + "_heatmap_minute.txt").read().strip().splitlines()
     data = [[float(j) for j in i.split(", ")] for i in data]
 
@@ -22,7 +34,7 @@ for file in ["sleep"]:
     px_long = im_long.load()
 
     for x in range(w):
-        px_long[x, 0] = (rgb(0, 1, sum(data, [])[x]))
+        px_long[x, 0] = rgb(sum(data, [])[x])
 
     im_long = im_long.resize((w*x_scale, h*line_height*y_scale), Image.NEAREST).crop((0,0, w*x_scale, h*line_height*y_scale))
     #im_long.show()
@@ -37,7 +49,7 @@ for file in ["sleep"]:
 
     for y in range(h):
         for x in range(w):
-            px_cal[x, y] = (rgb(0, 1,data[y][x]))
+            px_cal[x, y] = rgb(data[y][x])
 
     im_cal = im_cal.resize((w*x_scale, h*y_scale), Image.NEAREST).crop((0,0, w*x_scale, h*y_scale))
     #im_cal.show()
