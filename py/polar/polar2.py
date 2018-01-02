@@ -29,7 +29,7 @@ def polar(x, y):
         
     return theta, r
 
-im0 = Image.open("campus.png")
+im0 = Image.open("../rectilinear/campus.png")
 S = max(im0.size)
 im = Image.new('RGB', (S, S), (255,255,255))
 im.paste(im0) # .resize((S, int(S/1.42)))

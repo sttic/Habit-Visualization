@@ -27,15 +27,17 @@ def polar(x, y):
     elif y < 0:
         theta += 360
         
-    return theta, r
+    return r, theta
 
-im0 = Image.open("campus.png")
+im0 = Image.open("../../rectilinear/campus.png")
 S = max(im0.size)
 im = Image.new('RGB', (S, S), (255,255,255))
-im.paste(im0) # .resize((S, int(S/1.42)))
-im0 = im
-im0.show()
-im = Image.new('RGB', (S, S), (0,0,0))
+# isolated to left half?
+im.paste(im0.rotate(90, expand=1).resize((im0.width//2, im0.height*2), Image.NEAREST), (0,0))
+scale = 1
+im0 = im.resize((S*scale, S*scale), Image.NEAREST)
+#im0.show()
+im = Image.new('RGB', (S*scale, S*scale), (255,255,255))
 
 px0 = im0.load()
 px = im.load()
@@ -46,16 +48,12 @@ for x in range(0,S,step):
         x0, y0 = x-S//2, -y+S//2
         #print(x, y, "|", polar(x, y), sep="\t")
         p = polar(x0, y0)
+        r = rect(x0,y0)
         #print(x0, y0, p)
-        try:
-            if x0 == 0 and y0 < 0:
-                px[x, y] = px0[(p[0]-360)*((S-1)/360),p[1]*((S-1)/(2*(S//2)**2)**0.5)]
-            elif y0 == 0 and x0 < 0:
-                px[x, y] = px0[(p[0]-180)*((S-1)/360),p[1]*((S-1)/(2*(S//2)**2)**0.5)]
-            else:
-                px[x, y] = px0[p[0]*((S-1)/360),p[1]*((S-1)/(2*(S//2)**2)**0.5)]
-        except:
-            print(x0, y0, "|", p, (p[0]*((S-1)/360),p[1]*((S-1)/(2*(S//2)**2)**0.5)), sep="\t")
-im.show()
-#im.save("WIP_polar3.png", "PNG")
+        #print(r)
+        px[r[0]+S//2 if r[0]+S//2 < 1440 else 0,r[1]+S//2 if r[1]+S//2 < 1440 else 0] = px0[p]
+
+#im.show()
+im.save("derp2a.png", "PNG")
+
 
