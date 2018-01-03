@@ -18,11 +18,11 @@ def polar(x, y):
         
     return r, theta
 
-im0 = Image.open("campus.png")
+im0 = Image.open("../../rectilinear/campus.png")
 S = max(im0.size)
 im = Image.new('RGB', (S, S), (255,255,255))
 # isolated to left half?
-im.paste(im0.rotate(0, expand=1).resize((im0.width//2, im0.height*2), Image.NEAREST), (0,0))
+im.paste(im0.rotate(90, expand=1).resize((im0.width, im0.height*2), Image.NEAREST), (0,0))
 scale = 1
 im0 = im.resize((S*scale, S*scale), Image.NEAREST)
 #im0.show()
@@ -39,15 +39,18 @@ for x in range(0,S,step):
         p = polar(x0, y0)
         #print(x0, y0, p)
         try:
-            px[x,y] = px0[p[0],p[1]*(S/360)]
-        except:
-            #print(x, y, x0, y0, p, p[1]*(S/360), sep="\t")
             # theta values 360 and 630 instead of 180 and 270 respectively
-            if y0 == 0:
-                px[x,y] = px0[p[0],(p[1]-180)*(S/360)]
-            elif x0 == 0:
-                px[x,y] = px0[p[0],(p[1]-360)*(S/360)]
+            if x0 == 0 and y0 < 0:
+                px[p[0],(p[1]-360)*(S/360)] = px0[x,y]
+            elif y0 == 0 and x0 < 0:
+                px[p[0],(p[1]-180)*(S/360)] = px0[x,y]
+            else:
+                px[p[0],p[1]*(S/360)] = px0[x,y]
+        except:
+            print(x, y, x0, y0, p, p[1]*(S/360), sep="\t")
+            pass
+
 
 #im.show()
-im.save("derp4.png", "PNG")
+im.save("derp3.png", "PNG")
 

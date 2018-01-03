@@ -30,7 +30,7 @@ def polar(x, y):
         
     return r, theta
 
-im0 = Image.open("campus.png")
+im0 = Image.open("../../rectilinear/campus.png")
 S = max(im0.size)
 im = Image.new('RGB', (S, S), (255,255,255))
 # isolated to left half?

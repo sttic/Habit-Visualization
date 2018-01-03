@@ -1,3 +1,4 @@
+import datetime
 from datetime import timedelta
 import dateutil.parser
 
@@ -10,6 +11,7 @@ for file in ["sleep", "campus", "transit"]:
 
     week = [[[0 for minute in range(60)] for hour in range(24)] for day in range(7)]
     num_weekday = [0 for day in range(7)]
+    
     daily_total, counter = [], 0
     
     i, instance = 0, data[0]
@@ -23,7 +25,7 @@ for file in ["sleep", "campus", "transit"]:
 
         time = time + step
 
-        if time.date() !=  (time - step).date():
+        if time.time() == datetime.time(0,0,0):
             num_weekday[(time-step).weekday()] += 1
             daily_total.append([(time - step).date().isoformat(), counter])
             counter = 0
@@ -31,13 +33,16 @@ for file in ["sleep", "campus", "transit"]:
     avg_hour = [[sum(week[day][hour])/(num_weekday[day]*60) for hour in range(24)] for day in range(7)]
     avg_min = [sum([[week[day][hour][minute]/(num_weekday[day]) for minute in range(60)] for hour in range(24)], []) for day in range(7)]
 
-    for f in [["_heatmap_minute", avg_min], ["_heatmap_hour", avg_hour], ["_daily_total", daily_total]]:
+    active_duration = [i + [i[1]-i[0]] for i in data]
+    inactive_duration = [[data[i-1][1], data[i][0]] + [data[i][0]-data[i-1][1]] for i in range(1, len(data))]
+
+    for f in [["_heatmap_minute", avg_min], ["_heatmap_hour", avg_hour], ["_daily_total", daily_total], ["_active_duration", active_duration], ["_inactive_duration", inactive_duration]]:
         newfile = open("../../data/processed/analysis/" + file + f[0] + ".txt",'w')
-        newfile = open("../../data/processed/analysis/" + file + f[0] + ".txt",'w')
-        if f[0] == "_daily_total":
-            for i in f[1]:
+        for i in f[1]:
+            if f[0] == "_daily_total":
                 newfile.write(str(i)[1:-1].replace("\'", "") + "\n")
-        else:
-            for i in f[1]:
+            elif f[0] == "_heatmap_minute" or f[0] == "_heatmap_hour":
                 newfile.write(str(i)[1:-1] + "\n")
+            elif f[0] == "_active_duration" or f[0] == "_inactive_duration":
+                newfile.write(i[0].isoformat()[:-3] + ", " + i[1].isoformat()[:-3] + ", " + str(int(i[2].total_seconds()/60)) + "\n")
         newfile.close()
