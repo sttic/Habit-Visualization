@@ -16,13 +16,10 @@ for file in ["sleep", "campus", "transit"]:
     
     i, instance = 0, data[0]
     while time != end + step:
-        asleep = (time - instance[0]).total_seconds() >= 0 and (time - instance[1]).total_seconds() < 0
-        just_woke = (time - instance[1]).total_seconds() >= 0 and i < len(data)-1
-
-        if asleep:
+        if (time - instance[0]).total_seconds() >= 0 and (time - instance[1]).total_seconds() < 0:
             week[time.weekday()][time.hour][time.minute] += 1
             counter +=1
-        elif just_woke:
+        elif (time - instance[1]).total_seconds() >= 0 and i < len(data)-1:
             i += 1
             instance = data[i]
 
