@@ -44,7 +44,6 @@ for s in sleep:
         iso8601 = iso8601 + parse(s)
 
 file = open("../../data/processed/sleep_data.txt",'w')
-file = open("../../data/processed/sleep_data.txt",'a')
 for i in iso8601:
     file.write(i[0].isoformat()[:-3] + ", " + i[1].isoformat()[:-3] + "\n")
 file.close()
