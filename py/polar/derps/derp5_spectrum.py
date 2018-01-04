@@ -53,3 +53,9 @@ for x in range(0,S,step):
 im = im.transpose(Image.FLIP_LEFT_RIGHT).rotate(-90)
 #im.show()
 im.save("derp5_spectrum.png", "PNG")
+
+side = im.width
+diagonal = (2*side**2)**0.5
+offset = ((((diagonal-side)/2)**2)/2)**0.5
+
+im.crop((offset, offset, side-offset, side-offset)).save("derp5_spectrum_square.png", "PNG")
