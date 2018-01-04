@@ -49,5 +49,5 @@ for x in range(0,S,step):
                 px[x,y] = px0[p[0],(p[1]-360)*(S/360)]
 
 #im.show()
-im.save("derp4.png", "PNG")
+im.save("derp4_inverse.png", "PNG")
 

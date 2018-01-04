@@ -52,5 +52,5 @@ for x in range(0,S,step):
 
 
 #im.show()
-im.save("derp3.png", "PNG")
+im.save("derp3_log_polar.png", "PNG")
 
