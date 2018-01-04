@@ -34,7 +34,7 @@ S = max(im0.size)
 im = Image.new('RGB', (S, S), (255,255,255))
 im.paste(im0) # .resize((S, int(S/1.42)))
 im0 = im
-im0.show()
+#im0.show()
 im = Image.new('RGB', (S, S), (0,0,0))
 
 px0 = im0.load()
@@ -56,6 +56,6 @@ for x in range(0,S,step):
                 px[x, y] = px0[p[0]*((S-1)/360),p[1]*((S-1)/(2*(S//2)**2)**0.5)]
         except:
             print(x0, y0, "|", p, (p[0]*((S-1)/360),p[1]*((S-1)/(2*(S//2)**2)**0.5)), sep="\t")
-im.show()
-#im.save("WIP_test.png", "PNG")
+#im.show()
+im.save("WIP2_test.png", "PNG")
 

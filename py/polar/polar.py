@@ -48,6 +48,6 @@ for x in range(0,S,step):
             elif x0 == 0:
                 px[x,y] = px0[p[0],(p[1]-360)*(S/360)]
 
-im.show()
-im.save("WIP_polar.png", "PNG")
+#im.show()
+im.save("WIP1_polar.png", "PNG")
 
